@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0eeb6ac5e02e7934e9de66a74d90fa33
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - firstSprite: {fileID: 220236479, guid: 9049fd6b3e473cb40823e84ecc7b0a0f, type: 3}
+  - secondSprite: {fileID: 579121736, guid: 9049fd6b3e473cb40823e84ecc7b0a0f, type: 3}
+  - imageComponent: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

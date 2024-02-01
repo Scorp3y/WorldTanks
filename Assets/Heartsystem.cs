@@ -1,47 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Heartsystem : MonoBehaviour
 {
-    public static int health;
-    public GameObject Heart1, Heart2, Heart3;
-    void Start()
-    {
-        Heart1.SetActive(true);
-        Heart2.SetActive(true);
-        Heart3.SetActive(true);
-        health = 3;
-    }
+    
+    
+    public int HP = 3;
+    public int NumHP = 3;
+    public Image[] health;
+    public Sprite fullHeart;
+    public Sprite emptyHeart;
 
     
     void Update()
     {
-        switch (health)
+        if (HP > NumHP)
         {
-            case 3:
-                Heart1.SetActive(true);
-                Heart2.SetActive(true);
-                Heart3.SetActive(true);
-                break;
-
-            case 2:
-                Heart1.SetActive(true);
-                Heart2.SetActive(true);
-                Heart3.SetActive(false);
-                break;
-
-            case 1:
-                Heart1.SetActive(true);
-                Heart2.SetActive(false);
-                Heart3.SetActive(false);
-                break;
-
-            case 0:
-                Heart1.SetActive(false);
-                Heart2.SetActive(false);
-                Heart3.SetActive(false);
-                break;
+            HP = NumHP;
         }
+        for (int i = 0; i < health.Length; i++)
+        {
+            
+            if (i < HP)
+            {
+                
+                health[i].sprite = fullHeart;
+            }
+            else
+            {
+                
+                health[i].sprite = emptyHeart;
+            }
+        }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        HP -= amount;
     }
 }

@@ -7,7 +7,6 @@ public class TankControle1 : MonoBehaviour
 {
     public float speed = 5f;
     public float boundaryPadding = 0.5f;
-    
     public int HP = 3;
 
     [SerializeField] private Transform shootPos;

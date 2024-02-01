@@ -7,14 +7,15 @@ public class TankControle2 : MonoBehaviour
 {
     
     public float speed = 5f;
-    
+    public float boundaryPadding = 0.5f;
+    public int HP = 3;
+
+    [SerializeField] private Transform shootPos;
+    [SerializeField] private GameObject rocket;
+
+    private bool canMoveAndShoot = true;
 
 
-    public int h = 3;
-    public int n = 3;
-    public Image[] he;
-    public Sprite fH;
-    public Sprite eH;
     void Start()
     {
        
@@ -22,55 +23,65 @@ public class TankControle2 : MonoBehaviour
 
     void Update()
     {
-        MoveTank();
-        
-        
+        if (canMoveAndShoot)
+        {
+            MoveTank();
+
+            if (Input.GetKey(KeyCode.KeypadEnter))
+            {
+                StartCoroutine(Shoot());
+            }
+        }
+
+    }
+    private IEnumerator Shoot()
+    {
+        canMoveAndShoot = false;
+        Instantiate(rocket, shootPos.position, shootPos.rotation);
+        yield return new WaitForSeconds(0.5f);
+        canMoveAndShoot = true;
     }
 
-    private void FixedUpdate()
-    {
-        if (h > n)
-        {
-            h = n;
-        }
-        for (int i = 0; i < he.Length; i++)
-        {
-            if (i < Mathf.RoundToInt(h))
-            {
-                he[i].sprite = fH;
-            }
-            else
-            {
-                he[i].sprite = eH;
-            }
-            if (i < n)
-            {
-                he[i].enabled = true;
-            }
-            else
-            {
-                he[i].enabled = false;
-            }
-        }
-    }
     void MoveTank()
     {
-        float verticalInput = Input.GetAxis("Vertical");
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (HP > 0)
         {
-            verticalInput = 1f;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow)){
-            verticalInput = -1f;
-        }
-        else
-        {
-            verticalInput = 0f;
-        }
+            float verticalInput = Input.GetAxis("Vertical");
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                verticalInput = 1f;
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                verticalInput = -1f;
+            }
+            else
+            {
+                verticalInput = 0f;
+            }
 
-        Vector3 newPosition = transform.position + new Vector3(0f, verticalInput * speed * Time.deltaTime, 0f);
-        transform.position = newPosition;
+            Vector3 newPosition = transform.position + new Vector3(0f, verticalInput * speed * Time.deltaTime, 0f);
+            float clampedY = Mathf.Clamp(newPosition.y, GetMinYBound(), GetMaxYBound());
+            transform.position = new Vector3(transform.position.x, clampedY, transform.position.z);
+        }
+        
 
     }
-    
+
+    float GetMinYBound()
+    {
+        return Camera.main.ViewportToWorldPoint(Vector3.zero).y + boundaryPadding;
+    }
+
+    float GetMaxYBound()
+    {
+        return Camera.main.ViewportToWorldPoint(Vector3.one).y - boundaryPadding;
+    }
+
+
+    public void TakeDamage(int amount)
+    {
+        HP -= amount;
+    }
+
 }

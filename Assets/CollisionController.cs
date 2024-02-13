@@ -10,6 +10,7 @@ public class CollisionController : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("Collision with obstacle!");
+            Debug.Log("Collision with obstacle!");
         }
     }
 }
